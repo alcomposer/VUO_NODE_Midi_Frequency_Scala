@@ -18,8 +18,12 @@ void nodeEvent
         VuoInputData(VuoInteger, {"default":69, "suggestedMin":0, "suggestedMax":127}) noteNumber,
         VuoInputData(VuoInteger, {"default":8192, "suggestedMin":0, "suggestedMax":16383}) pitchBend,///< Permitted values: 0 through 16383; center=8192
         VuoInputData(VuoInteger, {"default":2, "suggestedMin":0, "suggestedMax":24}) pitchBendRange,
-        VuoOutputData(VuoReal) frequency
-
+        VuoOutputData(VuoReal) frequency,
+        VuoOutputData(VuoReal) reverseDegree,
+        VuoOutputData(VuoReal) pubdegree,
+        VuoOutputData(VuoReal) itemsinlist,
+        VuoOutputData(VuoReal) oct,
+        VuoOutputData(VuoList_VuoReal) invertedTuningTable2
 )
 {
     // https://en.wikipedia.org/wiki/Cent_(music)
@@ -34,10 +38,34 @@ void nodeEvent
 
 
     VuoReal degree = abs(note % tuningTableCount);
+    *pubdegree = degree;
+    //*reverseDegree = (tuningTableCount-1) - degree;
+    *itemsinlist= tuningTableCount;
 
     VuoReal octave = floor(note / tuningTableCount);
+    *oct = octave;
 
     VuoInteger notesPerOctave = tuningTableCount;
+
+    VuoReal m = tuningTableCount;
+
+   VuoListRemoveAll_VuoReal(*invertedTuningTable2);
+   VuoReal val;
+
+    for (unsigned long i=1; i <= tuningTableCount; i++){
+
+        if(i != tuningTableCount){
+            val= (VuoListGetValue_VuoReal(tuningTable, tuningTableCount)-(VuoListGetValue_VuoReal(tuningTable,m-1)));
+            VuoListAppendValue_VuoReal(*invertedTuningTable2, val);
+        }
+        else {
+            val = VuoListGetValue_VuoReal(tuningTable, tuningTableCount);
+             VuoListAppendValue_VuoReal(*invertedTuningTable2, val);
+        }
+
+        --m;
+
+    }
 
 
 
@@ -52,8 +80,8 @@ if(note >= 0 ){
 }
 else{
 
-    VuoReal tuning =  pow(2, VuoListGetValue_VuoReal(tuningTable, notesPerOctave) / 1200);
-    VuoReal tuning2 = pow(2, VuoListGetValue_VuoReal(tuningTable, degree ) / 1200);
+    VuoReal tuning =  pow(2, VuoListGetValue_VuoReal(*invertedTuningTable2, notesPerOctave) / 1200);
+    VuoReal tuning2 = pow(2, VuoListGetValue_VuoReal(*invertedTuningTable2, degree ) / 1200);
 
     *frequency = A440 * pow(tuning, ((octave * notesPerOctave) / notesPerOctave));
 
@@ -66,18 +94,6 @@ else{
 *frequency = MAX(0.0, MIN(22050.0, *frequency));
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
