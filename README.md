@@ -8,6 +8,6 @@ For more info regarding Scala: http://www.huygens-fokker.org/scala/
 
 And regarding the File Format: http://www.huygens-fokker.org/scala/scl_format.html
 
-Currently the node is only able to accept VuoReal note values in Cents, however I intend to include make a .scl file parser if there is interest. 
+Currently the node is only able to accept VuoReal note values in Cents, however I intend to make a .scl file parser if there is interest, otherwise there are many ratio->cent converters online.
 
 ![](https://github.com/alcomposer/VUO_NODE_Midi_Frequency_Scala/blob/master/Images/ScreenShot_Scala_Node.png)
