@@ -19,11 +19,11 @@ void nodeEvent
         VuoInputData(VuoInteger, {"default":8192, "suggestedMin":0, "suggestedMax":16383}) pitchBend,///< Permitted values: 0 through 16383; center=8192
         VuoInputData(VuoInteger, {"default":2, "suggestedMin":0, "suggestedMax":24}) pitchBendRange,
         VuoOutputData(VuoReal) frequency,
-        VuoOutputData(VuoReal) reverseDegree,
-        VuoOutputData(VuoReal) pubdegree,
-        VuoOutputData(VuoReal) itemsinlist,
-        VuoOutputData(VuoReal) oct,
-        VuoOutputData(VuoList_VuoReal) invertedTuningTable2
+        VuoOutputData(VuoReal) reverseDegree,                //testing
+        VuoOutputData(VuoReal) pubdegree,                    //testing
+        VuoOutputData(VuoReal) itemsinlist,                  //testing
+        VuoOutputData(VuoReal) oct,                          //testing
+        VuoOutputData(VuoList_VuoReal) invertedTuningTable2  //testing
 )
 {
     // https://en.wikipedia.org/wiki/Cent_(music)
